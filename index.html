@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Caveat:wght@400;700&family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+#bg{position:fixed;inset:0;z-index:0;overflow:hidden;background:#6a5030;}
+#bg .p{position:absolute;overflow:hidden;box-shadow:2px 4px 12px rgba(0,0,0,.55);}
+#bg .p img{display:block;width:100%;height:100%;object-fit:cover;}
+#tint{position:fixed;inset:0;z-index:1;background:rgba(40,25,10,.52);}
+.wrap{position:relative;z-index:2;padding:32px 20px 0;font-family:'Noto Serif JP',serif;color:#2c1a0e;}
+
+/* TAPE */
+.tp{display:block;position:absolute;z-index:8;background:rgba(245,215,50,.76);}
+
+/* SEC LABEL */
+.sec-lbl{font-family:'Noto Sans JP',sans-serif;font-size:11px;letter-spacing:3px;color:#e8d8b8;margin-bottom:16px;text-align:center;display:flex;align-items:center;gap:10px;justify-content:center;text-shadow:1px 1px 4px rgba(0,0,0,.6);}
+.sec-lbl::before,.sec-lbl::after{content:'';height:1px;flex:1;max-width:80px;background:rgba(232,216,184,.4);}
+
+/* HEADER */
+.hdr-outer{max-width:660px;margin:0 auto 44px;position:relative;}
+.hdr{background:#1a241a;border:4px solid #b8962a;box-shadow:0 0 0 2px #1a241a,0 0 0 5px #b8962a,4px 6px 0 4px rgba(0,0,0,.5);text-align:center;padding:32px 28px 26px;position:relative;overflow:hidden;transform:rotate(-.4deg);}
+.hdr::before,.hdr::after{content:'';position:absolute;width:14px;height:14px;background:#b8962a;border-radius:50%;top:14px;box-shadow:0 0 0 2px #1a241a;}
+.hdr::before{left:16px;}.hdr::after{right:16px;}
+
+/* OWNER */
+.own-outer{max-width:660px;margin:0 auto 44px;position:relative;transform:rotate(.7deg);}
+.own-card{background:#f0e8d0;padding:28px 32px 34px;border:1px solid rgba(120,80,30,.15);box-shadow:3px 5px 0 rgba(60,35,10,.28);clip-path:polygon(0% 3%,1% 0%,2.5% 2.5%,4% 0.2%,6% 2.8%,8% 0%,10.5% 2.2%,13% 0.4%,16% 3%,19% 0%,22% 2.4%,26% 0.2%,30% 2.8%,34% 0%,38% 2.6%,42% 0.3%,46% 2.8%,50% 0%,54% 2.4%,58% 0.2%,62% 2.8%,66% 0%,70% 2.2%,74% 0.4%,78% 2.8%,82% 0%,86% 2.4%,90% 0.2%,93% 2.8%,96% 0.4%,98.5% 2.2%,100% 0.8%,100% 100%,0% 100%);}
+.own-lbl{font-family:'Noto Sans JP',sans-serif;font-size:10px;letter-spacing:2px;color:#8c6a3a;margin-bottom:16px;}
+.own-txt{font-size:15px;line-height:2.4;color:#3a2410;}
+.own-txt .br{display:block;height:.4em;}
+
+/* MENU NOTEBOOK */
+.menu-outer{max-width:660px;margin:0 auto 44px;position:relative;}
+.notebook{max-width:660px;margin:0 auto;display:flex;box-shadow:0 6px 24px rgba(0,0,0,.6);}
+.nb-page{flex:1;position:relative;overflow:hidden;}
+.nb-left{background:#f5efe0;}
+.nb-right{background:#f2ead8;}
+.nb-page::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(transparent,transparent 39px,rgba(160,120,60,.13) 39px,rgba(160,120,60,.13) 40px);pointer-events:none;z-index:0;}
+.nb-left::before{content:'';position:absolute;left:42px;top:0;bottom:0;width:1px;background:rgba(200,80,60,.2);z-index:1;}
+.nb-inner{position:relative;z-index:2;padding:20px 18px 14px 24px;display:flex;flex-direction:column;height:100%;}
+.nb-right .nb-inner{padding:20px 24px 14px 18px;}
+.nb-title{font-family:'Noto Sans JP',sans-serif;font-size:10px;letter-spacing:3px;color:#a08050;padding-bottom:10px;border-bottom:1px solid rgba(120,80,30,.22);margin-bottom:4px;flex-shrink:0;}
+.nb-items{flex:1;display:flex;flex-direction:column;}
+.nb-item{display:flex;align-items:center;gap:5px;flex:1;border-bottom:1px solid rgba(120,80,30,.1);cursor:pointer;}
+.nb-item:last-child{border-bottom:none;}
+.nb-item.newest .nb-item-title{color:#1a2e14;font-weight:700;}
+.nb-num{font-family:'Noto Sans JP',sans-serif;font-size:9px;letter-spacing:1px;color:#b09060;flex-shrink:0;width:42px;}
+.nb-item-title{font-size:13px;color:#2c1a0e;line-height:1.45;flex:1;}
+.nb-dots{flex:1;min-width:6px;max-width:28px;border-bottom:1px dotted rgba(120,80,30,.28);margin-bottom:2px;}
+.nb-dish{font-family:'Noto Sans JP',sans-serif;font-size:11px;color:#7a5030;white-space:nowrap;flex-shrink:0;}
+.nb-osusume{font-family:'Noto Sans JP',sans-serif;font-size:8px;font-weight:700;background:#e8b800;color:#2c1000;padding:1px 5px;letter-spacing:1px;margin-left:5px;vertical-align:middle;display:inline-block;}
+.nb-empty{flex:1;border-bottom:1px solid rgba(120,80,30,.07);}
+.nb-empty:last-child{border-bottom:none;}
+.nb-bottom{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding-top:8px;border-top:1px solid rgba(120,80,30,.18);margin-top:6px;}
+.nb-nombr{font-family:'Noto Serif JP',serif;font-size:13px;color:#8c6a3a;letter-spacing:1px;}
+.nb-btn{font-family:'Noto Sans JP',sans-serif;font-size:11px;letter-spacing:1px;color:#5a3e20;background:none;border:none;cursor:pointer;padding:2px 0;}
+.nb-btn:hover{color:#2c1a0e;}
+.nb-spine{width:22px;background:linear-gradient(to right,#c8a870,#e8d4a0,#c8a870);flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;box-shadow:inset 1px 0 4px rgba(0,0,0,.2),inset -1px 0 4px rgba(0,0,0,.2);}
+.nb-hole{width:8px;height:8px;background:#2c1a0e;border-radius:50%;}
+
+/* ROOMS */
+.rooms-outer{max-width:660px;margin:0 auto 44px;position:relative;}
+.rooms-card{background:#ede4cc;border:1px solid rgba(92,61,30,.28);padding:20px 20px 18px;box-shadow:3px 4px 0 rgba(30,20,10,.28);transform:rotate(.25deg);}
+.rooms-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.rooms-hdr-title{font-size:14px;font-weight:700;color:#2c1a0e;}
+.rooms-open{background:#2a5e28;color:#fff;font-family:'Noto Sans JP',sans-serif;font-size:10px;padding:3px 8px;letter-spacing:1px;margin-right:6px;}
+.rooms-count{font-family:'Noto Sans JP',sans-serif;font-size:12px;color:#5c3d1e;}
+.f-tabs{display:flex;gap:0;margin-bottom:14px;}
+.f-tab{font-family:'Noto Sans JP',sans-serif;font-size:12px;padding:6px 18px;border:1px solid #8c6a3a;background:#ddd0b6;color:#5c3d1e;cursor:pointer;margin-right:-1px;transition:all .15s;}
+.f-tab.active{background:#2c1a0e;color:#f5efe3;border-color:#2c1a0e;z-index:1;position:relative;}
+.floor-inner{background:#e4dac0;border:1px solid rgba(92,61,30,.22);padding:10px 10px 12px;}
+.corridor-bar{background:repeating-linear-gradient(90deg,#c0aa80 0,#c0aa80 5px,#cebb96 5px,#cebb96 13px);height:20px;display:flex;align-items:center;justify-content:center;margin:8px 0;border:1px solid rgba(92,61,30,.18);}
+.corridor-lbl{font-family:'Noto Sans JP',sans-serif;font-size:9px;letter-spacing:3px;color:#7a5c30;}
+.rooms-row{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;}
+.room{padding:8px 6px 7px;min-height:64px;display:flex;flex-direction:column;justify-content:space-between;position:relative;cursor:pointer;}
+.room.newest{background:#111;border:2px solid #c9a84c;}
+.room.published{background:#2c3e28;border:1px solid #3e5634;}
+.room.empty{background:transparent;border:1.5px dashed rgba(92,61,30,.28);}
+.room-num{font-family:'Noto Sans JP',sans-serif;font-size:10px;font-weight:700;}
+.newest .room-num{color:#c9a84c;}.published .room-num{color:rgba(255,255,255,.65);}.empty .room-num{color:rgba(92,61,30,.38);}
+.room-lbl{font-family:'Noto Sans JP',sans-serif;font-size:9px;line-height:1.4;}
+.newest .room-lbl{color:rgba(255,255,255,.8);}.published .room-lbl{color:rgba(255,255,255,.55);}.empty .room-lbl{color:rgba(92,61,30,.32);}
+.new-badge{position:absolute;top:-7px;right:-4px;background:#c83418;color:#fff;font-size:7px;font-weight:700;padding:2px 5px;font-family:'Noto Sans JP',sans-serif;letter-spacing:1px;transform:rotate(2deg);}
+.legend{display:flex;gap:16px;margin-top:14px;align-items:center;flex-wrap:wrap;}
+.leg-item{display:flex;align-items:center;gap:5px;font-family:'Noto Sans JP',sans-serif;font-size:11px;color:#5c3d1e;}
+.leg-box{width:14px;height:14px;flex-shrink:0;}
+.leg-newest{background:#111;border:1.5px solid #c9a84c;}.leg-pub{background:#2c3e28;border:1px solid #3e5634;}.leg-empty{border:1.5px dashed rgba(92,61,30,.42);background:transparent;}
+.progress-wrap{margin-top:12px;font-family:'Noto Sans JP',sans-serif;font-size:11px;color:#7a5c30;}
+.progress-bar{height:5px;background:rgba(92,61,30,.18);border-radius:2px;margin-top:5px;overflow:hidden;}
+.progress-fill{height:100%;background:#7a5c30;transition:width .4s;}
+
+/* RESERVATION */
+.rsv-outer{max-width:660px;margin:0 auto 44px;position:relative;}
+.rsv-card{background:#ede4cc;border:1px solid rgba(92,61,30,.22);padding:24px 24px 20px;box-shadow:3px 4px 0 rgba(30,20,10,.25);transform:rotate(-.2deg);}
+.rsv-hdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;}
+.rsv-title{font-size:15px;font-weight:700;color:#2c1a0e;}
+.rsv-limit{font-family:'Noto Sans JP',sans-serif;font-size:12px;color:#c0401a;letter-spacing:1px;}
+.rsv-note{font-family:'Noto Sans JP',sans-serif;font-size:13px;line-height:2.1;color:#5a3e20;border:1px solid rgba(92,61,30,.2);background:rgba(255,255,255,.38);padding:14px 16px;margin-bottom:20px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.form-lbl{font-family:'Noto Sans JP',sans-serif;font-size:11px;letter-spacing:1px;color:#7a5c30;display:block;margin-bottom:5px;}
+.form-inp{width:100%;background:rgba(255,255,255,.72);border:1px solid rgba(92,61,30,.3);padding:9px 12px;font-family:'Noto Serif JP',serif;font-size:14px;color:#2c1a0e;outline:none;}
+.form-inp:focus{border-color:#7a5c30;background:#fff;}
+.btn-ci{width:100%;background:#f0e8d0;border:1px solid rgba(92,61,30,.4);padding:13px;font-family:'Noto Serif JP',serif;font-size:14px;letter-spacing:3px;color:#2c1a0e;cursor:pointer;margin-top:6px;transition:background .15s;}
+.btn-ci:hover{background:#e0d4b4;}
+
+/* FOOTER */
+.ftr{background:rgba(10,12,6,.92);margin:0 -20px;padding:20px;text-align:center;font-family:'Noto Sans JP',sans-serif;font-size:10px;letter-spacing:3px;color:#6a5430;}
+
+/* MODAL */
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:1000;align-items:center;justify-content:center;}
+.modal-ov.show{display:flex;}
+.modal-box{background:#ede4cc;border:2px solid #c9a84c;padding:36px 32px;max-width:340px;text-align:center;box-shadow:5px 7px 0 rgba(15,10,0,.4);transform:rotate(-.8deg);}
+.modal-t{font-size:16px;font-weight:700;color:#2c1a0e;margin-bottom:10px;}
+.modal-p{font-family:'Noto Sans JP',sans-serif;font-size:13px;color:#7a5c30;line-height:1.9;}
+.modal-btn{margin-top:20px;display:inline-block;border:1px solid #7a5c30;background:transparent;color:#7a5c30;font-family:'Noto Sans JP',sans-serif;font-size:11px;padding:7px 22px;letter-spacing:2px;cursor:pointer;}
+
+/* ============================================
+   レスポンシブ対応 — タブレット（768px以下）
+   ============================================ */
+@media (max-width: 768px) {
+  .wrap{padding:24px 14px 0;}
+
+  /* ヘッダー看板 */
+  .hdr{padding:24px 18px 20px;}
+  .hdr svg{max-width:100%;}
+
+  /* MENUノート：横2ページ→縦1ページ */
+  .notebook{flex-direction:column;}
+  .nb-spine{
+    width:100%;height:18px;
+    flex-direction:row;
+    justify-content:center;gap:9px;
+    box-shadow:inset 0 1px 4px rgba(0,0,0,.2),inset 0 -1px 4px rgba(0,0,0,.2);
+  }
+  .nb-hole{width:8px;height:8px;}
+  .nb-page{width:100%;}
+
+  /* ROOMSフロアマップ：5列→3列 */
+  .rooms-row{grid-template-columns:repeat(5,1fr);}
+  .room{min-height:56px;}
+
+  /* フォーム：2列→1列 */
+  .form-row{grid-template-columns:1fr;}
+
+  /* フッター */
+  .ftr{font-size:9px;letter-spacing:2px;}
+}
+
+/* ============================================
+   レスポンシブ対応 — スマホ（480px以下）
+   ============================================ */
+@media (max-width: 480px) {
+  .wrap{padding:16px 10px 0;}
+
+  /* ヘッダー看板：タイトル文字を縮小 */
+  .hdr{padding:20px 14px 16px;transform:rotate(0deg);}
+  .hdr svg text{font-size:44px;}
+
+  /* オーナーカード */
+  .own-outer{transform:rotate(0deg);}
+  .own-card{padding:20px 18px 24px;}
+  .own-txt{font-size:14px;line-height:2.2;}
+
+  /* MENUノート */
+  .nb-inner{padding:16px 14px 12px;}
+  .nb-item{gap:3px;}
+  .nb-dots{display:none;}
+  .nb-dish{display:none;}
+
+  /* ROOMSフロアマップ：3列→2列 */
+  .rooms-row{grid-template-columns:repeat(5,1fr);}
+  .room{min-height:52px;}
+  .room-num{font-size:9px;}
+  .room-lbl{font-size:8px;}
+  .rooms-card{padding:14px 12px 14px;transform:rotate(0deg);}
+
+  /* フロアタブ */
+  .f-tab{font-size:11px;padding:5px 10px;}
+
+  /* 予約フォーム */
+  .rsv-card{padding:18px 14px 16px;transform:rotate(0deg);}
+  .rsv-hdr{flex-direction:column;gap:4px;}
+  .rsv-note{font-size:12px;line-height:1.9;padding:12px 14px;}
+  .btn-ci{font-size:13px;padding:12px;letter-spacing:2px;}
+
+  /* モーダル */
+  .modal-box{padding:28px 20px;max-width:88vw;}
+
+  /* テープ装飾：傾きをなくして負荷軽減 */
+  .hdr-outer,.rooms-card,.rsv-card{transform:rotate(0deg) !important;}
+}
+
+/* GUEST ROOM */
+.room.guest{background:#3a2c5a;border:1.5px solid #8060c0;}
+.guest .room-num{color:rgba(200,180,255,.75);}
+.guest .room-lbl{color:rgba(200,180,255,.6);}
+.guest-key{position:absolute;top:4px;right:5px;font-size:10px;opacity:.8;}
+
+@media (max-width: 768px) {
+  .rooms-row{grid-template-columns:repeat(5,1fr);}
+  .room{min-height:52px;padding:6px 4px 5px;}
+  .room-num{font-size:9px;}
+  .room-lbl{font-size:7px;}
+}
+@media (max-width: 480px) {
+  .rooms-row{grid-template-columns:repeat(5,1fr) !important;}
+  .room{min-height:48px;padding:5px 3px 4px;}
+  .room-num{font-size:8px;}
+  .room-lbl{font-size:7px;line-height:1.3;}
+}
+</style>
+</head>
+<body>
+
+<div id="bg"></div>
+<div id="tint"></div>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="hdr-outer">
+    <span class="tp" style="width:58px;height:20px;left:20%;top:-11px;transform:rotate(-3deg);"></span>
+    <span class="tp" style="width:44px;height:20px;left:64%;top:-9px;transform:rotate(2deg);"></span>
+    <div class="hdr">
+      <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.09;" xmlns="http://www.w3.org/2000/svg">
+        <filter id="ct"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
+        <rect width="100%" height="100%" filter="url(#ct)" fill="white" opacity=".6"/>
+      </svg>
+      <span style="font-family:'Caveat',cursive;font-size:14px;color:rgba(210,205,175,.5);letter-spacing:5px;display:block;transform:rotate(.8deg);margin-bottom:12px;">virtual guesthouse</span>
+      <svg viewBox="0 0 560 80" width="100%" style="display:block;margin:0 auto;max-width:540px;overflow:visible;">
+        <defs>
+          <filter id="crayon">
+            <feTurbulence type="fractalNoise" baseFrequency="0.04 0.07" numOctaves="4" seed="3" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.8" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
+            <feTurbulence type="turbulence" baseFrequency="0.55" numOctaves="3" seed="8" result="tex"/>
+            <feColorMatrix in="tex" type="saturate" values="0" result="texGray"/>
+            <feBlend in="displaced" in2="texGray" mode="multiply" result="blend"/>
+            <feComponentTransfer in="blend"><feFuncA type="linear" slope="1.15"/></feComponentTransfer>
+          </filter>
+        </defs>
+        <text filter="url(#crayon)" font-family="'Caveat Brush',cursive" font-size="58" font-weight="400" fill="#ede8d8" text-anchor="middle" x="280" y="62" letter-spacing="1">Ban Ban Bangla Dish</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- OWNER -->
+  <div class="own-outer">
+    <span class="tp" style="width:50px;height:18px;left:50%;top:-10px;transform:translateX(-50%) rotate(1.5deg);"></span>
+    <div class="own-card">
+      
+      <p class="own-txt">
+        ようこそ、Ban Ban Bangla Dish へ。<span class="br"></span>
+        ここはバングラデシュのとある町にある、<span class="br"></span>日常と非日常、現実と非現実が交差するゲストハウス。<span class="br"></span>
+        扉を開けると、誰かが食べたものの匂いがする。誰かの声がする。<span class="br"></span>
+        さあ、どうぞごゆっくりお過ごしください。
+      </p>
+    </div>
+  </div>
+
+  <!-- MENU NOTEBOOK -->
+  <div class="menu-outer">
+    <p class="sec-lbl">MENU — お品書き</p>
+    <div class="notebook">
+      <div class="nb-page nb-left">
+        <div class="nb-inner">
+          <div class="nb-title" id="nb-left-title">最新のお品書き</div>
+          <div class="nb-items" id="nb-left-items"></div>
+          <div class="nb-bottom">
+            <button class="nb-btn" id="nb-prev" onclick="nbTurn(-1)">← 前のページ</button>
+            <span class="nb-nombr" id="nb-nombr-l"></span>
+          </div>
+        </div>
+      </div>
+      <div class="nb-spine">
+        <div class="nb-hole"></div><div class="nb-hole"></div><div class="nb-hole"></div>
+        <div class="nb-hole"></div><div class="nb-hole"></div><div class="nb-hole"></div>
+        <div class="nb-hole"></div>
+      </div>
+      <div class="nb-page nb-right">
+        <div class="nb-inner">
+          <div class="nb-title" style="visibility:hidden;">—</div>
+          <div class="nb-items" id="nb-right-items"></div>
+          <div class="nb-bottom">
+            <span class="nb-nombr" id="nb-nombr-r"></span>
+            <button class="nb-btn" id="nb-next" onclick="nbTurn(1)">次のページ →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROOMS -->
+  <div class="rooms-outer">
+    <p class="sec-lbl">ROOMS — 客室 / フロアマップ</p>
+    <span class="tp" style="width:52px;height:18px;left:50%;top:28px;transform:translateX(-50%) rotate(1deg);"></span>
+    <div class="rooms-card">
+      <div class="rooms-hdr">
+        <p class="rooms-hdr-title">Ban Ban Bangla Dish — フロアガイド</p>
+      </div>
+      <div class="f-tabs">
+        <button class="f-tab active" onclick="switchFloor(1,this)">1F  101〜</button>
+        <button class="f-tab" onclick="switchFloor(2,this)">2F  201〜210</button>
+        <button class="f-tab" onclick="switchFloor(3,this)">3F〜  準備中</button>
+      </div>
+      <div class="floor-inner">
+        <div class="rooms-row" id="row-top"></div>
+        <div class="corridor-bar"><span class="corridor-lbl">— 廊下 / CORRIDOR —</span></div>
+        <div class="rooms-row" id="row-bottom"></div>
+      </div>
+      <div class="legend">
+        <div class="leg-item"><div class="leg-box leg-newest"></div>最新の記事</div>
+        <div class="leg-item"><div class="leg-box leg-pub"></div>公開済み</div>
+        <div class="leg-item"><div class="leg-box" style="background:#3a2c5a;border:1.5px solid #8060c0;"></div>ゲスト滞在</div>
+        <div class="leg-item"><div class="leg-box leg-empty"></div>空室（未公開）</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESERVATION -->
+  <div class="rsv-outer">
+    <p class="sec-lbl">RESERVATION — ご予約</p>
+    <span class="tp" style="width:52px;height:18px;left:50%;top:28px;transform:translateX(-50%) rotate(-1.5deg);"></span>
+    <div class="rsv-card">
+      <div class="rsv-hdr">
+        <p class="rsv-title">Ban Ban Bangla Dish — 予約</p>
+        <p class="rsv-limit">1日1組限定</p>
+      </div>
+      <p class="rsv-note">ご予約いただいた日の朝、お部屋の鍵をお渡しします。<br>お待ちしております。</p>
+      <div class="form-row">
+        <div><label class="form-lbl">チェックイン日</label><input class="form-inp" type="date"/></div>
+        <div><label class="form-lbl">お名前</label><input class="form-inp" type="text" placeholder="例：山田 花子"/></div>
+      </div>
+      <div style="margin-bottom:14px;">
+        <label class="form-lbl">メールアドレス</label>
+        <input class="form-inp" type="email" placeholder="メッセージの送り先"/>
+      </div>
+      <button class="btn-ci" onclick="openModal()">予約する</button>
+    </div>
+  </div>
+
+  <div class="ftr">BAN BAN BANGLA DISH — A VIRTUAL GUESTHOUSE FROM BANGLADESH</div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-ov" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <p class="modal-t">ご予約ありがとうございます。</p>
+    <p class="modal-p">お部屋をご用意しています。<br>チェックインの朝、オーナーより<br>メッセージをお届けします。</p>
+    <br><button class="modal-btn" onclick="closeModal()">CLOSE</button>
+  </div>
+</div>
+
+<script>
+// BG COLLAGE
+const srcs = ["photos/photo1.jpg", "photos/photo2.jpg", "photos/photo3.jpg", "photos/photo4.jpg", "photos/photo5.jpg", "photos/photo6.jpg", "photos/photo7.jpg", "photos/photo8.jpg", "photos/photo9.jpg", "photos/photo10.jpg", "photos/photo11.jpg", "photos/photo12.jpg", "photos/photo13.jpg", "photos/photo14.jpg", "photos/photo15.jpg", "photos/photo16.jpg", "photos/photo17.jpg", "photos/photo18.jpg", "photos/photo19.jpg", "photos/photo20.jpg"];
+const layout = [[-30, -30, 420, 320, -3], [370, -40, 380, 310, 2], [720, -20, 420, 300, -1], [1100, -35, 360, 320, 3], [-40, 260, 350, 420, 2], [290, 270, 420, 310, -2], [680, 255, 370, 420, 3], [1020, 265, 420, 310, -2], [-20, 640, 430, 310, -3], [390, 630, 360, 420, 2], [720, 645, 430, 310, 1], [1110, 635, 340, 415, -3], [-35, 910, 380, 420, 2], [320, 920, 440, 310, -1], [730, 905, 370, 420, 3], [1070, 915, 400, 310, -2], [-25, 1185, 450, 310, -2], [400, 1175, 380, 420, 2], [750, 1190, 440, 310, -1], [1160, 1180, 320, 415, 3]];
+const bg = document.getElementById('bg');
+// layoutは1200px基準 → vwパーセントに変換して画面幅に追従
+srcs.forEach(function(src,i){
+  const p=layout[i]; if(!p) return;
+  const d=document.createElement('div'); d.className='p';
+  const toVw = function(px){ return (px/1200*100).toFixed(3)+'vw'; };
+  const toVh = function(px){ return (px/1200*100).toFixed(3)+'vw'; };
+  d.style.position='absolute';
+  d.style.overflow='hidden';
+  d.style.boxShadow='2px 4px 14px rgba(0,0,0,.6)';
+  d.style.left=toVw(p[0]);
+  d.style.top=toVw(p[1]);
+  d.style.width=toVw(p[2]);
+  d.style.height=toVw(p[3]);
+  d.style.transform='rotate('+p[4]+'deg)';
+  const img=document.createElement('img'); img.src=src;
+  img.style.cssText='display:block;width:100%;height:100%;object-fit:cover;';
+  d.appendChild(img); bg.appendChild(d);
+});
+
+// MENU NOTEBOOK
+const NB_PER = 6;
+const dishes = ['シングル','チャイ','ビリヤニ','イリッシュ','ダール','ロティ','モモ','パン','マンゴー','サモサ','ラッシー','プラオ'];
+const nbMenus = Array.from({length:36},function(_,i){
+  const n=36-i;
+  return {num:'MENU '+String(n).padStart(3,'0'),title:'タイトル '+n+' — 仮のエッセイ名',dish:dishes[i%dishes.length],newest:i===0};
+});
+let nbSpread=0;
+const nbTotal=Math.ceil(nbMenus.length/(NB_PER*2));
+function nbMakeItem(m){
+  return '<div class="nb-item'+(m.newest?' newest':'')+'">'
+    +'<span class="nb-num">'+m.num+'</span>'
+    +'<span class="nb-item-title">'+m.title+(m.newest?'<span class="nb-osusume">本日のおすすめ</span>':'')+'</span>'
+    +'<span class="nb-dots"></span>'
+    +'<span class="nb-dish">'+m.dish+'</span>'
+    +'</div>';
+}
+function nbRender(){
+  const li=nbSpread*NB_PER*2, ri=li+NB_PER;
+  const lItems=nbMenus.slice(li,li+NB_PER), rItems=nbMenus.slice(ri,ri+NB_PER);
+  const lEmp=NB_PER-lItems.length, rEmp=NB_PER-rItems.length;
+  const emptySlot='<div class="nb-empty"></div>';
+  document.getElementById('nb-left-items').innerHTML=lItems.map(nbMakeItem).join('')+Array(lEmp).fill(emptySlot).join('');
+  document.getElementById('nb-right-items').innerHTML=rItems.map(nbMakeItem).join('')+Array(rEmp).fill(emptySlot).join('');
+  document.getElementById('nb-left-title').textContent=nbSpread===0?'最新のお品書き':'お品書き';
+  document.getElementById('nb-nombr-l').textContent=nbSpread*2+1;
+  document.getElementById('nb-nombr-r').textContent=nbSpread*2+2;
+  document.getElementById('nb-prev').style.visibility=nbSpread===0?'hidden':'visible';
+  document.getElementById('nb-next').style.visibility=nbSpread>=nbTotal-1?'hidden':'visible';
+}
+function nbTurn(d){nbSpread=Math.max(0,Math.min(nbTotal-1,nbSpread+d));nbRender();}
+nbRender();
+
+// ROOMS
+const fd={
+  1:{rooms:[
+    {num:'101号室',lbl:'ダッカに着いた日のこと',state:'published'},
+    {num:'102号室',lbl:'隣の家族と言葉が通じなかった話',state:'published'},
+    {num:'103号室',lbl:'川の上で考えていたこと',state:'newest'},
+    {num:'104号室',lbl:'山田さんの滞在記録',state:'guest'},
+    {num:'105号室',lbl:'空室',state:'empty'},
+    {num:'106号室',lbl:'空室',state:'empty'},{num:'107号室',lbl:'空室',state:'empty'},
+    {num:'108号室',lbl:'空室',state:'empty'},{num:'109号室',lbl:'空室',state:'empty'},
+    {num:'110号室',lbl:'空室',state:'empty'},
+  ]},
+  2:{rooms:Array.from({length:10},function(_,i){return {num:(201+i)+'号室',lbl:'空室',state:'empty'};})},
+  3:{rooms:Array.from({length:10},function(_,i){return {num:(301+i)+'号室',lbl:'空室',state:'empty'};})}
+};
+function renderFloor(f){
+  ['row-top','row-bottom'].forEach(function(id){document.getElementById(id).innerHTML='';});
+  fd[f].rooms.forEach(function(r,i){
+    const el=document.createElement('div'); el.className='room '+r.state;
+    el.innerHTML='<span class="room-num">'+r.num+'</span><span class="room-lbl">'+(r.state==='empty'?'空室':r.lbl)+'</span>';
+    if(r.state==='newest'){const b=document.createElement('span');b.className='new-badge';b.textContent='NEW';el.appendChild(b);}
+    if(r.state==='guest'){const k=document.createElement('span');k.className='guest-key';k.textContent='🔑';el.appendChild(k);}
+    document.getElementById(i<5?'row-top':'row-bottom').appendChild(el);
+  });
+  const pub=fd[f].rooms.filter(function(r){return r.state!=='empty';}).length;
+}
+function switchFloor(f,btn){
+  document.querySelectorAll('.f-tab').forEach(function(t){t.classList.remove('active');});
+  btn.classList.add('active'); renderFloor(f);
+}
+function openModal(){document.getElementById('modal').classList.add('show');}
+function closeModal(){document.getElementById('modal').classList.remove('show');}
+renderFloor(1);
+</script>
+</body></html>
