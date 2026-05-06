@@ -92,19 +92,50 @@
 .progress-bar{height:5px;background:rgba(92,61,30,.18);border-radius:2px;margin-top:5px;overflow:hidden;}
 .progress-fill{height:100%;background:#7a5c30;transition:width .4s;}
 
-/* RESERVATION */
+/* =====================
+   RESERVATION + CALENDAR
+   ===================== */
 .rsv-outer{max-width:660px;margin:0 auto 44px;position:relative;}
 .rsv-card{background:#ede4cc;border:1px solid rgba(92,61,30,.22);padding:24px 24px 20px;box-shadow:3px 4px 0 rgba(30,20,10,.25);transform:rotate(-.2deg);}
 .rsv-hdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;}
 .rsv-title{font-size:15px;font-weight:700;color:#2c1a0e;}
 .rsv-limit{font-family:'Noto Sans JP',sans-serif;font-size:12px;color:#c0401a;letter-spacing:1px;}
 .rsv-note{font-family:'Noto Sans JP',sans-serif;font-size:13px;line-height:2.1;color:#5a3e20;border:1px solid rgba(92,61,30,.2);background:rgba(255,255,255,.38);padding:14px 16px;margin-bottom:20px;}
+
+/* カレンダー */
+.cal-section{margin-bottom:20px;}
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.cal-nav-btn{background:none;border:1px solid rgba(92,61,30,.35);color:#5c3d1e;font-family:'Noto Sans JP',sans-serif;font-size:12px;padding:4px 14px;cursor:pointer;transition:background .15s;}
+.cal-nav-btn:hover{background:rgba(92,61,30,.1);}
+.cal-month-title{font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:700;color:#2c1a0e;letter-spacing:2px;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+.cal-dow{text-align:center;font-family:'Noto Sans JP',sans-serif;font-size:10px;letter-spacing:1px;color:#8c6a3a;padding:4px 0 8px;}
+.cal-dow.sun{color:#c83418;}.cal-dow.sat{color:#2a5e9e;}
+.cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-family:'Noto Sans JP',sans-serif;font-size:12px;color:#3a2410;position:relative;border:1px solid transparent;transition:all .12s;}
+.cal-day.empty{cursor:default;}
+.cal-day.past{color:rgba(92,61,30,.28);cursor:default;background:rgba(92,61,30,.04);}
+.cal-day.today{font-weight:700;border:1px solid rgba(92,61,30,.5);}
+.cal-day.available{cursor:pointer;background:rgba(42,94,40,.12);border:1px solid rgba(42,94,40,.3);}
+.cal-day.available:hover{background:rgba(42,94,40,.25);border-color:rgba(42,94,40,.5);}
+.cal-day.available.selected{background:#2a5e28;color:#fff;border-color:#2a5e28;}
+.cal-day.full{background:rgba(200,52,24,.08);color:rgba(92,61,30,.35);cursor:not-allowed;border:1px solid rgba(200,52,24,.15);}
+.cal-day.sun-col{color:#c83418;}.cal-day.sat-col{color:#2a5e9e;}
+.cal-day.available.selected.sun-col,.cal-day.available.selected.sat-col{color:#fff;}
+.cal-legend{display:flex;gap:14px;margin-top:12px;padding-top:10px;border-top:1px solid rgba(92,61,30,.18);flex-wrap:wrap;}
+.cal-leg{display:flex;align-items:center;gap:5px;font-family:'Noto Sans JP',sans-serif;font-size:11px;color:#5c3d1e;}
+.cal-leg-sq{width:13px;height:13px;flex-shrink:0;border:1px solid transparent;}
+
+/* 選択済み表示 */
+.selected-date-info{font-family:'Noto Sans JP',sans-serif;font-size:13px;color:#2a5e28;font-weight:700;margin-bottom:14px;min-height:20px;letter-spacing:1px;}
+
+/* フォーム */
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
 .form-lbl{font-family:'Noto Sans JP',sans-serif;font-size:11px;letter-spacing:1px;color:#7a5c30;display:block;margin-bottom:5px;}
 .form-inp{width:100%;background:rgba(255,255,255,.72);border:1px solid rgba(92,61,30,.3);padding:9px 12px;font-family:'Noto Serif JP',serif;font-size:14px;color:#2c1a0e;outline:none;}
 .form-inp:focus{border-color:#7a5c30;background:#fff;}
 .btn-ci{width:100%;background:#f0e8d0;border:1px solid rgba(92,61,30,.4);padding:13px;font-family:'Noto Serif JP',serif;font-size:14px;letter-spacing:3px;color:#2c1a0e;cursor:pointer;margin-top:6px;transition:background .15s;}
 .btn-ci:hover{background:#e0d4b4;}
+.btn-ci:disabled{background:rgba(92,61,30,.1);color:rgba(92,61,30,.35);cursor:not-allowed;border-color:rgba(92,61,30,.15);}
 
 /* FOOTER */
 .ftr{background:rgba(10,12,6,.92);margin:0 -20px;padding:20px;text-align:center;font-family:'Noto Sans JP',sans-serif;font-size:10px;letter-spacing:3px;color:#6a5430;}
@@ -122,30 +153,15 @@
    ============================================ */
 @media (max-width: 768px) {
   .wrap{padding:24px 14px 0;}
-
-  /* ヘッダー看板 */
   .hdr{padding:24px 18px 20px;}
   .hdr svg{max-width:100%;}
-
-  /* MENUノート：横2ページ→縦1ページ */
   .notebook{flex-direction:column;}
-  .nb-spine{
-    width:100%;height:18px;
-    flex-direction:row;
-    justify-content:center;gap:9px;
-    box-shadow:inset 0 1px 4px rgba(0,0,0,.2),inset 0 -1px 4px rgba(0,0,0,.2);
-  }
+  .nb-spine{width:100%;height:18px;flex-direction:row;justify-content:center;gap:9px;box-shadow:inset 0 1px 4px rgba(0,0,0,.2),inset 0 -1px 4px rgba(0,0,0,.2);}
   .nb-hole{width:8px;height:8px;}
   .nb-page{width:100%;}
-
-  /* ROOMSフロアマップ：5列→3列 */
   .rooms-row{grid-template-columns:repeat(5,1fr);}
   .room{min-height:56px;}
-
-  /* フォーム：2列→1列 */
   .form-row{grid-template-columns:1fr;}
-
-  /* フッター */
   .ftr{font-size:9px;letter-spacing:2px;}
 }
 
@@ -154,43 +170,29 @@
    ============================================ */
 @media (max-width: 480px) {
   .wrap{padding:16px 10px 0;}
-
-  /* ヘッダー看板：タイトル文字を縮小 */
   .hdr{padding:20px 14px 16px;transform:rotate(0deg);}
   .hdr svg text{font-size:44px;}
-
-  /* オーナーカード */
   .own-outer{transform:rotate(0deg);}
   .own-card{padding:20px 18px 24px;}
   .own-txt{font-size:14px;line-height:2.2;}
-
-  /* MENUノート */
   .nb-inner{padding:16px 14px 12px;}
   .nb-item{gap:3px;}
   .nb-dots{display:none;}
   .nb-dish{display:none;}
-
-  /* ROOMSフロアマップ：3列→2列 */
   .rooms-row{grid-template-columns:repeat(5,1fr);}
   .room{min-height:52px;}
   .room-num{font-size:9px;}
   .room-lbl{font-size:8px;}
   .rooms-card{padding:14px 12px 14px;transform:rotate(0deg);}
-
-  /* フロアタブ */
   .f-tab{font-size:11px;padding:5px 10px;}
-
-  /* 予約フォーム */
   .rsv-card{padding:18px 14px 16px;transform:rotate(0deg);}
   .rsv-hdr{flex-direction:column;gap:4px;}
   .rsv-note{font-size:12px;line-height:1.9;padding:12px 14px;}
   .btn-ci{font-size:13px;padding:12px;letter-spacing:2px;}
-
-  /* モーダル */
   .modal-box{padding:28px 20px;max-width:88vw;}
-
-  /* テープ装飾：傾きをなくして負荷軽減 */
   .hdr-outer,.rooms-card,.rsv-card{transform:rotate(0deg) !important;}
+  .cal-grid{gap:2px;}
+  .cal-day{font-size:11px;}
 }
 
 /* GUEST ROOM */
@@ -250,7 +252,6 @@
   <div class="own-outer">
     <span class="tp" style="width:50px;height:18px;left:50%;top:-10px;transform:translateX(-50%) rotate(1.5deg);"></span>
     <div class="own-card">
-      
       <p class="own-txt">
         ようこそ、Ban Ban Bangla Dish へ。<span class="br"></span>
         ここはバングラデシュのとある町にある、<span class="br"></span>日常と非日常、現実と非現実が交差するゲストハウス。<span class="br"></span>
@@ -328,17 +329,34 @@
         <p class="rsv-title">Ban Ban Bangla Dish — 予約</p>
         <p class="rsv-limit">1日1組限定</p>
       </div>
-      <p class="rsv-note">ご予約いただいた日の朝、お部屋の鍵をお渡しします。</p>
-      <form action="https://formspree.io/f/xkoybaed" method="POST" onsubmit="handleSubmit(event)">
+      <p class="rsv-note">空室（緑）の日をカレンダーで選んでからご予約ください。<br>ご予約いただいた日の朝、お部屋の鍵をお渡しします。</p>
+
+      <!-- カレンダー -->
+      <div class="cal-section">
+        <div class="cal-nav">
+          <button class="cal-nav-btn" onclick="calMove(-1)">← 前月</button>
+          <span class="cal-month-title" id="cal-title"></span>
+          <button class="cal-nav-btn" onclick="calMove(1)">次月 →</button>
+        </div>
+        <div class="cal-grid" id="cal-grid"></div>
+        <div class="cal-legend">
+          <div class="cal-leg"><div class="cal-leg-sq" style="background:rgba(42,94,40,.15);border-color:rgba(42,94,40,.4);"></div>空室</div>
+          <div class="cal-leg"><div class="cal-leg-sq" style="background:#2a5e28;border-color:#2a5e28;"></div>選択中</div>
+          <div class="cal-leg"><div class="cal-leg-sq" style="background:rgba(92,61,30,.06);border-color:rgba(200,52,24,.2);"></div>満室・選択不可</div>
+        </div>
+      </div>
+
+      <!-- 選択された日付の表示 -->
+      <div class="selected-date-info" id="selected-date-info"></div>
+
+      <!-- フォーム -->
+      <form action="https://formspree.io/f/xkoybaed" method="POST" onsubmit="handleSubmit(event)" id="rsv-form">
+        <input type="hidden" name="checkin" id="checkin-hidden"/>
         <div class="form-row">
-          <div><label class="form-lbl">チェックイン日</label><input class="form-inp" type="date" name="checkin" required/></div>
           <div><label class="form-lbl">お名前</label><input class="form-inp" type="text" name="name" placeholder="例：山田 花子" required/></div>
+          <div><label class="form-lbl">メールアドレス</label><input class="form-inp" type="email" name="email" placeholder="返信先アドレス" required/></div>
         </div>
-        <div style="margin-bottom:14px;">
-          <label class="form-lbl">メールアドレス</label>
-          <input class="form-inp" type="email" name="email" placeholder="メッセージの送り先" required/>
-        </div>
-        <button class="btn-ci" type="submit">予約する</button>
+        <button class="btn-ci" type="submit" id="submit-btn" disabled>日付を選択してください</button>
       </form>
     </div>
   </div>
@@ -356,23 +374,32 @@
 </div>
 
 <script>
+// ==============================================
+// 空室管理
+// この配列に空室の日付を入れてください（YYYY-MM-DD形式）
+// 予約が確定したら、該当の日付をこの配列から削除してください
+// ==============================================
+const AVAILABLE = [
+  "2025-06-07",
+  "2025-06-14",
+  "2025-06-21",
+  "2025-06-28",
+  "2025-07-05",
+  "2025-07-12"
+];
+// ==============================================
+
 // BG COLLAGE
-const srcs = ["image/photo1.jpg", "image/photo2.jpg", "image/photo3.jpg", "image/photo4.jpg", "image/photo5.jpg", "image/photo6.jpg", "image/photo7.jpg", "image/photo8.jpg", "image/photo9.jpg", "image/photo10.jpg", "image/photo11.jpg", "image/photo12.jpg", "image/photo13.jpg", "image/photo14.jpg", "image/photo15.jpg", "image/photo16.jpg", "image/photo17.jpg", "image/photo18.jpg", "image/photo19.jpg", "image/photo20.jpg"];
-const layout = [[-30, -30, 420, 320, -3], [370, -40, 380, 310, 2], [720, -20, 420, 300, -1], [1100, -35, 360, 320, 3], [-40, 260, 350, 420, 2], [290, 270, 420, 310, -2], [680, 255, 370, 420, 3], [1020, 265, 420, 310, -2], [-20, 640, 430, 310, -3], [390, 630, 360, 420, 2], [720, 645, 430, 310, 1], [1110, 635, 340, 415, -3], [-35, 910, 380, 420, 2], [320, 920, 440, 310, -1], [730, 905, 370, 420, 3], [1070, 915, 400, 310, -2], [-25, 1185, 450, 310, -2], [400, 1175, 380, 420, 2], [750, 1190, 440, 310, -1], [1160, 1180, 320, 415, 3]];
+const srcs = ["image/photo1.jpg","image/photo2.jpg","image/photo3.jpg","image/photo4.jpg","image/photo5.jpg","image/photo6.jpg","image/photo7.jpg","image/photo8.jpg","image/photo9.jpg","image/photo10.jpg","image/photo11.jpg","image/photo12.jpg","image/photo13.jpg","image/photo14.jpg","image/photo15.jpg","image/photo16.jpg","image/photo17.jpg","image/photo18.jpg","image/photo19.jpg","image/photo20.jpg"];
+const layout = [[-30,-30,420,320,-3],[370,-40,380,310,2],[720,-20,420,300,-1],[1100,-35,360,320,3],[-40,260,350,420,2],[290,270,420,310,-2],[680,255,370,420,3],[1020,265,420,310,-2],[-20,640,430,310,-3],[390,630,360,420,2],[720,645,430,310,1],[1110,635,340,415,-3],[-35,910,380,420,2],[320,920,440,310,-1],[730,905,370,420,3],[1070,915,400,310,-2],[-25,1185,450,310,-2],[400,1175,380,420,2],[750,1190,440,310,-1],[1160,1180,320,415,3]];
 const bg = document.getElementById('bg');
-// layoutは1200px基準 → vwパーセントに変換して画面幅に追従
 srcs.forEach(function(src,i){
   const p=layout[i]; if(!p) return;
   const d=document.createElement('div'); d.className='p';
-  const toVw = function(px){ return (px/1200*100).toFixed(3)+'vw'; };
-  const toVh = function(px){ return (px/1200*100).toFixed(3)+'vw'; };
-  d.style.position='absolute';
-  d.style.overflow='hidden';
-  d.style.boxShadow='2px 4px 14px rgba(0,0,0,.6)';
-  d.style.left=toVw(p[0]);
-  d.style.top=toVw(p[1]);
-  d.style.width=toVw(p[2]);
-  d.style.height=toVw(p[3]);
+  const toVw=function(px){return (px/1200*100).toFixed(3)+'vw';};
+  d.style.cssText='position:absolute;overflow:hidden;box-shadow:2px 4px 14px rgba(0,0,0,.6);';
+  d.style.left=toVw(p[0]); d.style.top=toVw(p[1]);
+  d.style.width=toVw(p[2]); d.style.height=toVw(p[3]);
   d.style.transform='rotate('+p[4]+'deg)';
   const img=document.createElement('img'); img.src=src;
   img.style.cssText='display:block;width:100%;height:100%;object-fit:cover;';
@@ -380,26 +407,21 @@ srcs.forEach(function(src,i){
 });
 
 // MENU NOTEBOOK
-const NB_PER = 6;
-const dishes = ['シングル','チャイ','ビリヤニ','イリッシュ','ダール','ロティ','モモ','パン','マンゴー','サモサ','ラッシー','プラオ'];
-const nbMenus = Array.from({length:36},function(_,i){
+const NB_PER=6;
+const dishes=['シングル','チャイ','ビリヤニ','イリッシュ','ダール','ロティ','モモ','パン','マンゴー','サモサ','ラッシー','プラオ'];
+const nbMenus=Array.from({length:36},function(_,i){
   const n=36-i;
   return {num:'MENU '+String(n).padStart(3,'0'),title:'タイトル '+n+' — 仮のエッセイ名',dish:dishes[i%dishes.length],newest:i===0};
 });
 let nbSpread=0;
 const nbTotal=Math.ceil(nbMenus.length/(NB_PER*2));
 function nbMakeItem(m){
-  return '<div class="nb-item'+(m.newest?' newest':'')+'">'
-    +'<span class="nb-num">'+m.num+'</span>'
-    +'<span class="nb-item-title">'+m.title+(m.newest?'<span class="nb-osusume">本日のおすすめ</span>':'')+'</span>'
-    +'<span class="nb-dots"></span>'
-    +'<span class="nb-dish">'+m.dish+'</span>'
-    +'</div>';
+  return '<div class="nb-item'+(m.newest?' newest':'')+'"><span class="nb-num">'+m.num+'</span><span class="nb-item-title">'+m.title+(m.newest?'<span class="nb-osusume">本日のおすすめ</span>':'')+'</span><span class="nb-dots"></span><span class="nb-dish">'+m.dish+'</span></div>';
 }
 function nbRender(){
-  const li=nbSpread*NB_PER*2, ri=li+NB_PER;
-  const lItems=nbMenus.slice(li,li+NB_PER), rItems=nbMenus.slice(ri,ri+NB_PER);
-  const lEmp=NB_PER-lItems.length, rEmp=NB_PER-rItems.length;
+  const li=nbSpread*NB_PER*2,ri=li+NB_PER;
+  const lItems=nbMenus.slice(li,li+NB_PER),rItems=nbMenus.slice(ri,ri+NB_PER);
+  const lEmp=NB_PER-lItems.length,rEmp=NB_PER-rItems.length;
   const emptySlot='<div class="nb-empty"></div>';
   document.getElementById('nb-left-items').innerHTML=lItems.map(nbMakeItem).join('')+Array(lEmp).fill(emptySlot).join('');
   document.getElementById('nb-right-items').innerHTML=rItems.map(nbMakeItem).join('')+Array(rEmp).fill(emptySlot).join('');
@@ -436,26 +458,83 @@ function renderFloor(f){
     if(r.state==='guest'){const k=document.createElement('span');k.className='guest-key';k.textContent='🔑';el.appendChild(k);}
     document.getElementById(i<5?'row-top':'row-bottom').appendChild(el);
   });
-  const pub=fd[f].rooms.filter(function(r){return r.state!=='empty';}).length;
 }
 function switchFloor(f,btn){
   document.querySelectorAll('.f-tab').forEach(function(t){t.classList.remove('active');});
   btn.classList.add('active'); renderFloor(f);
 }
+renderFloor(1);
+
+// ==============================================
+// カレンダー
+// ==============================================
+const DOW=['日','月','火','水','木','金','土'];
+let calCur=new Date();
+calCur=new Date(calCur.getFullYear(),calCur.getMonth(),1);
+let selectedDate=null;
+
+function calRender(){
+  const y=calCur.getFullYear(),m=calCur.getMonth();
+  document.getElementById('cal-title').textContent=y+'年'+(m+1)+'月';
+  const today=new Date(); today.setHours(0,0,0,0);
+  const firstDay=new Date(y,m,1).getDay();
+  const daysInMonth=new Date(y,m+1,0).getDate();
+  let html=DOW.map(function(d,i){return '<div class="cal-dow'+(i===0?' sun':i===6?' sat':'')+'">'+ d+'</div>';}).join('');
+  for(let i=0;i<firstDay;i++) html+='<div class="cal-day empty"></div>';
+  for(let d=1;d<=daysInMonth;d++){
+    const date=new Date(y,m,d);
+    const dateStr=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    const dow=date.getDay();
+    const isPast=date<today;
+    const isToday=date.getTime()===today.getTime();
+    const isAvailable=AVAILABLE.includes(dateStr);
+    const isSelected=selectedDate===dateStr;
+    let cls='cal-day';
+    if(isPast) cls+=' past';
+    else if(isAvailable) cls+=' available'+(isSelected?' selected':'');
+    else cls+=' full';
+    if(isToday) cls+=' today';
+    if(dow===0) cls+=' sun-col';
+    if(dow===6) cls+=' sat-col';
+    const clickAttr=isAvailable&&!isPast?' onclick="calSelect(\''+dateStr+'\')"':'';
+    html+='<div class="'+cls+'"'+clickAttr+'>'+d+'</div>';
+  }
+  document.getElementById('cal-grid').innerHTML=html;
+}
+
+function calSelect(dateStr){
+  selectedDate=dateStr;
+  document.getElementById('checkin-hidden').value=dateStr;
+  const parts=dateStr.split('-');
+  document.getElementById('selected-date-info').textContent='チェックイン：'+parts[0]+'年'+parseInt(parts[1])+'月'+parseInt(parts[2])+'日';
+  const btn=document.getElementById('submit-btn');
+  btn.disabled=false;
+  btn.textContent='予約する';
+  calRender();
+}
+
+function calMove(d){
+  calCur.setMonth(calCur.getMonth()+d);
+  calRender();
+}
+calRender();
+
+// FORM
 function openModal(){document.getElementById('modal').classList.add('show');}
 function handleSubmit(e){
   e.preventDefault();
-  const form = e.target;
-  fetch(form.action, {
-    method: 'POST',
-    body: new FormData(form),
-    headers: { 'Accept': 'application/json' }
+  if(!selectedDate){alert('日付を選択してください。');return;}
+  const form=e.target;
+  fetch(form.action,{
+    method:'POST',
+    body:new FormData(form),
+    headers:{'Accept':'application/json'}
   }).then(function(res){
-    if(res.ok){ openModal(); form.reset(); }
-    else{ alert('送信に失敗しました。もう一度お試しください。'); }
-  }).catch(function(){ alert('送信に失敗しました。もう一度お試しください。'); });
+    if(res.ok){openModal();form.reset();selectedDate=null;document.getElementById('checkin-hidden').value='';document.getElementById('selected-date-info').textContent='';document.getElementById('submit-btn').disabled=true;document.getElementById('submit-btn').textContent='日付を選択してください';calRender();}
+    else{alert('送信に失敗しました。もう一度お試しください。');}
+  }).catch(function(){alert('送信に失敗しました。もう一度お試しください。');});
 }
 function closeModal(){document.getElementById('modal').classList.remove('show');}
-renderFloor(1);
 </script>
-</body></html>
+</body>
+</html>
