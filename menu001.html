@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ビリヤニ — MENU 001 | Ban Ban Bangla Dish</title>
+<meta name="description" content="ダッカのオールドタウンで食べたビリヤニの話。80タカ、午後2時の食堂。">
+<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Caveat:wght@400;700&family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{overflow-x:hidden;max-width:100%;min-height:100vh;}
+#bg{position:fixed;inset:0;z-index:0;background:#6a5030;}
+#tint{position:fixed;inset:0;z-index:1;background:rgba(40,25,10,.78);}
+.wrap{position:relative;z-index:2;padding:40px 20px 80px;max-width:680px;margin:0 auto;}
+.back-link{display:inline-flex;align-items:center;gap:8px;font-family:'Noto Sans JP',sans-serif;font-size:11px;letter-spacing:3px;color:#c8b88a;text-decoration:none;margin-bottom:40px;opacity:.75;transition:opacity .2s;}
+.back-link:hover{opacity:1;}
+.back-link::before{content:'←';}
+.menu-board{background:#1c1a14;border:3px solid #c8a050;box-shadow:0 0 0 1px #1c1a14,0 0 0 5px #c8a050,4px 6px 0 5px rgba(0,0,0,.5);padding:28px 28px 24px;margin-bottom:32px;position:relative;}
+.menu-board::before,.menu-board::after{content:'';position:absolute;width:10px;height:10px;background:#c8a050;border-radius:50%;top:12px;box-shadow:0 0 0 2px #1c1a14;}
+.menu-board::before{left:14px;}.menu-board::after{right:14px;}
+.menu-num{font-family:'Noto Sans JP',sans-serif;font-size:10px;letter-spacing:4px;color:rgba(200,160,80,.55);display:block;margin-bottom:10px;text-align:center;}
+.menu-dish-name{font-family:'Caveat Brush',cursive;font-size:48px;color:#f0e0b0;text-align:center;display:block;line-height:1.2;margin-bottom:8px;text-shadow:2px 3px 0 rgba(0,0,0,.4);}
+.menu-dish-sub{font-size:18px;color:rgba(200,160,80,.7);text-align:center;display:block;margin-bottom:18px;letter-spacing:2px;}
+.price-tag{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;}
+.price-item{text-align:center;}
+.price-label{font-family:'Noto Sans JP',sans-serif;font-size:9px;letter-spacing:2px;color:rgba(200,160,80,.55);display:block;margin-bottom:3px;}
+.price-val{font-family:'Caveat',cursive;font-size:26px;color:#f0d090;font-weight:700;}
+.price-unit{font-family:'Noto Sans JP',sans-serif;font-size:10px;color:rgba(200,160,80,.6);margin-left:2px;}
+.price-divider{width:1px;height:36px;background:rgba(200,160,80,.25);}
+.meta-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;padding:10px 16px;background:rgba(200,160,80,.07);border:1px solid rgba(200,160,80,.18);flex-wrap:wrap;gap:8px;}
+.meta-item{font-family:'Noto Sans JP',sans-serif;font-size:11px;color:rgba(200,184,138,.65);letter-spacing:1px;}
+.meta-label{font-size:9px;letter-spacing:2px;color:rgba(200,160,80,.45);margin-right:6px;}
+.article-body{font-family:'Noto Serif JP',serif;color:#e0d0b0;font-size:15px;line-height:2.6;letter-spacing:.04em;}
+.article-body p{margin-bottom:2em;}
+.article-body p:last-child{margin-bottom:0;}
+.article-img{margin:2.4em 0;}
+.article-img img{width:100%;height:auto;display:block;}
+.article-footer{margin-top:56px;padding-top:28px;border-top:1px solid rgba(200,160,80,.2);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.footer-nav-link{font-family:'Noto Sans JP',sans-serif;font-size:11px;letter-spacing:2px;color:#b09060;text-decoration:none;transition:color .2s;}
+.footer-nav-link:hover{color:#c8a870;}
+.footer-site-name{font-family:'Noto Sans JP',sans-serif;font-size:10px;letter-spacing:3px;color:rgba(160,128,80,.45);}
+.ftr{margin-top:40px;text-align:center;font-family:'Noto Sans JP',sans-serif;font-size:10px;letter-spacing:3px;color:#6a5430;}
+@media(max-width:600px){
+  .wrap{padding:28px 14px 60px;}
+  .menu-dish-name{font-size:36px;}
+  .menu-board{padding:22px 18px 20px;}
+  .article-body{font-size:14px;}
+  .dish-memo-key{width:64px;}
+}
+</style>
+</head>
+<body>
+<div id="bg"></div>
+<div id="tint"></div>
+<div class="wrap">
+
+  <a class="back-link" href="index.html">Ban Ban Bangla Dish へ戻る</a>
+
+  <div class="menu-board">
+    <span class="menu-num">MENU 001</span>
+    <span class="menu-dish-name">ビリヤニ</span>
+    <span class="menu-dish-sub">বিরিয়ানি</span>
+    <div class="price-tag">
+      <div class="price-item">
+        <span class="price-label">現地価格</span>
+        <span class="price-val">80<span class="price-unit">タカ</span></span>
+      </div>
+      <div class="price-divider"></div>
+      <div class="price-item">
+        <span class="price-label">日本円換算</span>
+        <span class="price-val">約110<span class="price-unit">円</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="meta-bar">
+    <span class="meta-item"><span class="meta-label">DATE</span>2025.06.07</span>
+    <span class="meta-item"><span class="meta-label">場所</span>ダッカ・オールドタウン</span>
+    <span class="meta-item"><span class="meta-label">タイトル</span>ビリヤニ</span>
+  </div>
+
+  <div class="article-body">
+
+    <p>午後2時、オールドタウンの路地をしばらく歩いたところにある食堂に入った。プラスチックの椅子が並んでいて、天井のファンがゆっくり回っていた。メニューは壁に貼ってあって、ベンガル語しか書いていなかった。</p>
+
+    <p>隣のテーブルの男性が食べているものを指差して「あれと同じもの」と身振りで伝えた。しばらくして運ばれてきたのがビリヤニだった。鉄の皿に山盛りで、スパイスの匂いが先にやってきた。</p>
+
+    <div class="article-img">
+      <img src="image/photo3.jpg" alt="ビリヤニ">
+    </div>
+
+    <p>一口食べて、目が覚めるような感覚があった。辛いというより、複雑な味だった。何種類のスパイスが入っているのかわからない。米がパラパラで、肉は骨付きのチキンが2切れ。</p>
+
+    <p>食べ終わるころには額に汗をかいていた。80タカ。日本円で110円くらい。会計のときに店の主人が笑って「おいしかったか」と英語で聞いてきた。おいしかった、と答えた。</p>
+
+  </div>
+
+  <div class="article-footer">
+    <a class="footer-nav-link" href="index.html">← トップへ戻る</a>
+    <span class="footer-site-name">BAN BAN BANGLA DISH</span>
+  </div>
+
+  <div class="ftr">BAN BAN BANGLA DISH — A VIRTUAL GUESTHOUSE FROM BANGLADESH</div>
+
+</div>
+</body>
+</html>
