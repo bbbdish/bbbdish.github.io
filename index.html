@@ -45,7 +45,7 @@
 .nb-inner{position:relative;z-index:2;padding:20px 18px 14px 24px;display:flex;flex-direction:column;height:100%;}
 .nb-right .nb-inner{padding:20px 24px 14px 18px;}
 .nb-title{font-family:'Noto Sans JP',sans-serif;font-size:10px;letter-spacing:3px;color:#a08050;padding-bottom:10px;border-bottom:1px solid rgba(120,80,30,.22);margin-bottom:4px;flex-shrink:0;}
-.nb-items{flex:1;display:flex;flex-direction:column;}
+.nb-items{flex:1;display:flex;flex-direction:column;min-height:234px;}
 .nb-item{display:flex;align-items:center;gap:5px;flex:1;border-bottom:1px solid rgba(120,80,30,.1);cursor:pointer;}
 .nb-item:last-child{border-bottom:none;}
 .nb-item.newest .nb-item-title{color:#1a2e14;font-weight:700;}
@@ -409,22 +409,30 @@ srcs.forEach(function(src,i){
 });
 
 // MENU NOTEBOOK
+// =============================================
+// 記事を追加するときはここに追加してください
+// 例: {num:'MENU 001',title:'ダッカの朝ごはん',dish:'パラタ',url:'menu001.html'}
+// =============================================
 const NB_PER=6;
-const dishes=['シングル','チャイ','ビリヤニ','イリッシュ','ダール','ロティ','モモ','パン','マンゴー','サモサ','ラッシー','プラオ'];
-const nbMenus=Array.from({length:36},function(_,i){
-  const n=36-i;
-  return {num:'MENU '+String(n).padStart(3,'0'),title:'タイトル '+n+' — 仮のエッセイ名',dish:dishes[i%dishes.length],newest:i===0};
-});
+const nbMenus=[
+  {num:'MENU 001',title:'ビリヤニ',dish:'ビリヤニ',url:'menu001.html',newest:true},
+];
 let nbSpread=0;
-const nbTotal=Math.ceil(nbMenus.length/(NB_PER*2));
+const nbTotal=Math.max(1,Math.ceil(nbMenus.length/(NB_PER*2)));
 function nbMakeItem(m){
-  return '<div class="nb-item'+(m.newest?' newest':'')+'"><span class="nb-num">'+m.num+'</span><span class="nb-item-title">'+m.title+(m.newest?'<span class="nb-osusume">本日のおすすめ</span>':'')+'</span><span class="nb-dots"></span><span class="nb-dish">'+m.dish+'</span></div>';
+  return '<div class="nb-item'+(m.newest?' newest':'')+'" onclick="if(\''+( m.url||'')+'\')location.href=\''+( m.url||'')+'\'">'
+    +'<span class="nb-num">'+m.num+'</span>'
+    +'<span class="nb-item-title">'+m.title+(m.newest?'<span class="nb-osusume">本日のおすすめ</span>':'')+'</span>'
+    +'<span class="nb-dots"></span>'
+    +'<span class="nb-dish">'+m.dish+'</span>'
+    +'</div>';
 }
 function nbRender(){
+  const emptySlot='<div class="nb-empty" style="flex:1;border-bottom:1px solid rgba(120,80,30,.07);"></div>';
   const li=nbSpread*NB_PER*2,ri=li+NB_PER;
   const lItems=nbMenus.slice(li,li+NB_PER),rItems=nbMenus.slice(ri,ri+NB_PER);
   const lEmp=NB_PER-lItems.length,rEmp=NB_PER-rItems.length;
-  const emptySlot='<div class="nb-empty"></div>';
+  // 常に6枠ぶん高さを確保（記事+空枠で必ず6になる）
   document.getElementById('nb-left-items').innerHTML=lItems.map(nbMakeItem).join('')+Array(lEmp).fill(emptySlot).join('');
   document.getElementById('nb-right-items').innerHTML=rItems.map(nbMakeItem).join('')+Array(rEmp).fill(emptySlot).join('');
   document.getElementById('nb-left-title').textContent=nbSpread===0?'最新のお品書き':'お品書き';
@@ -437,24 +445,31 @@ function nbTurn(d){nbSpread=Math.max(0,Math.min(nbTotal-1,nbSpread+d));nbRender(
 nbRender();
 
 // ROOMS
+// =============================================
+// 記事を追加するときはstateを変更してください
+// state: 'empty'=空室, 'published'=公開済み, 'newest'=最新, 'guest'=ゲスト滞在
+// =============================================
 const fd={
   1:{rooms:[
-    {num:'101号室',lbl:'ダッカに着いた日のこと',state:'published'},
-    {num:'102号室',lbl:'隣の家族と言葉が通じなかった話',state:'published'},
-    {num:'103号室',lbl:'川の上で考えていたこと',state:'newest'},
-    {num:'104号室',lbl:'山田さんの滞在記録',state:'guest'},
-    {num:'105号室',lbl:'空室',state:'empty'},
-    {num:'106号室',lbl:'空室',state:'empty'},{num:'107号室',lbl:'空室',state:'empty'},
-    {num:'108号室',lbl:'空室',state:'empty'},{num:'109号室',lbl:'空室',state:'empty'},
-    {num:'110号室',lbl:'空室',state:'empty'},
+    {num:'101号室',lbl:'川の上で考えていたこと',state:'newest',url:'room101.html'},
+    {num:'102号室',lbl:'',state:'empty'},
+    {num:'103号室',lbl:'',state:'empty'},
+    {num:'104号室',lbl:'',state:'empty'},
+    {num:'105号室',lbl:'',state:'empty'},
+    {num:'106号室',lbl:'',state:'empty'},
+    {num:'107号室',lbl:'',state:'empty'},
+    {num:'108号室',lbl:'',state:'empty'},
+    {num:'109号室',lbl:'',state:'empty'},
+    {num:'110号室',lbl:'',state:'empty'},
   ]},
-  2:{rooms:Array.from({length:10},function(_,i){return {num:(201+i)+'号室',lbl:'空室',state:'empty'};})},
-  3:{rooms:Array.from({length:10},function(_,i){return {num:(301+i)+'号室',lbl:'空室',state:'empty'};})}
+  2:{rooms:Array.from({length:10},function(_,i){return {num:(201+i)+'号室',lbl:'',state:'empty'};})},
+  3:{rooms:Array.from({length:10},function(_,i){return {num:(301+i)+'号室',lbl:'',state:'empty'};})}
 };
 function renderFloor(f){
   ['row-top','row-bottom'].forEach(function(id){document.getElementById(id).innerHTML='';});
   fd[f].rooms.forEach(function(r,i){
     const el=document.createElement('div'); el.className='room '+r.state;
+    if(r.url){el.style.cursor='pointer';el.onclick=function(){location.href=r.url;};}
     el.innerHTML='<span class="room-num">'+r.num+'</span><span class="room-lbl">'+(r.state==='empty'?'空室':r.lbl)+'</span>';
     if(r.state==='newest'){const b=document.createElement('span');b.className='new-badge';b.textContent='NEW';el.appendChild(b);}
     if(r.state==='guest'){const k=document.createElement('span');k.className='guest-key';k.textContent='🔑';el.appendChild(k);}
